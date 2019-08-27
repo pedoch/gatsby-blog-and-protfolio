@@ -5,6 +5,8 @@ date: "22-08-2019"
 
 I just launched a new bootcamp!
 
+![Unbox Therapy Logo](./Unbox Therapy.jpg)
+
 ## Topics Covered
 
 1. Gatsby

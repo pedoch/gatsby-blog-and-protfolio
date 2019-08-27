@@ -1,22 +1,18 @@
 import React from "react"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Layout from "../components/layout"
+import blogStyles from "./blog.module.scss"
+import Head from "../components/head"
 
 const BlogPage = () => {
   const data = useStaticQuery(graphql`
     query {
-      allMarkdownRemark {
+      allContentfulBlogPost(sort: { fields: publishedDate, order: DESC }) {
         edges {
           node {
-            frontmatter {
-              title
-              date
-            }
-            html
-            excerpt
-            fields {
-              slug
-            }
+            title
+            slug
+            publishedDate(formatString: "D MMMM YYYY")
           }
         }
       }
@@ -25,19 +21,15 @@ const BlogPage = () => {
 
   return (
     <Layout>
+      <Head title="Blog" />
       <h2>My Blog</h2>
-      <ol>
-        {data.allMarkdownRemark.edges.map((post, index) => {
+      <ol className={blogStyles.posts}>
+        {data.allContentfulBlogPost.edges.map((post, index) => {
           return (
-            <li
-              key={
-                post.node.frontmatter.title + index + post.node.frontmatter.date
-              }
-            >
-              <Link to={`/blog/${post.node.fields.slug}`}>
-                <h4>{post.node.frontmatter.title}</h4>
-                <h6>{post.node.excerpt}</h6>
-                <p>{post.node.frontmatter.date}</p>
+            <li className={blogStyles.post}>
+              <Link to={`/blog/${post.node.slug}`}>
+                <h4>{post.node.title}</h4>
+                <p>{post.node.publishedDate}</p>
               </Link>
             </li>
           )
